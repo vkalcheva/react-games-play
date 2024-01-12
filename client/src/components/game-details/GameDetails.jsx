@@ -6,11 +6,15 @@ import * as commentService from '../../services/commentService';
 
 export default function GameDetails() {
     const [game, setGame] = useState({});
+    const [commens, setComments] = useState({});
     const { gameId } = useParams();
 
     useEffect(() => {
         gameService.getOne(gameId)
             .then(setGame);
+
+        commentService.getAll()
+            .then(setComments);
     }, [gameId]);
 
     const addCommentHandler = async (e) => {
