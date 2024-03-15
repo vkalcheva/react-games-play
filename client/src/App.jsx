@@ -1,4 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+
+import AuthContext from './contexts/authContext';
+import * as authService from './services/authService';
+import Path from './paths';
 
 import Header from "./components/header/Header";
 import Home from "./components/home/Home";
@@ -7,13 +12,16 @@ import GameCreate from './components/game-create/GameCreate';
 import Login from './components/login/Login';
 import Register from './components/register/Register';
 import GameDetails from './components/game-details/GameDetails';
-import { useState } from 'react';
+
 
 function App() {
+    const navigate = useNavigate();
     const [auth, setAuth] = useState({});
 
-    const loginSubmitHandler = (values) => {
-        console.log(values)
+    const loginSubmitHandler = async (values) => {
+        const result = await authService.login(values.email, values.password);
+        setAuth(result);
+        navigate(Path.Home);
     };
 
     return (
